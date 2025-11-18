@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\LookupController;
 use App\Http\Controllers\API\TeamController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -17,7 +18,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
      Route::get('/test', function (Request $request) {
          return response()->json([
-             'message' => 'test'
+             'message' => 'authenticated'
          ]);
     });
 
@@ -26,5 +27,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/teams', [TeamController::class, 'store']);
     Route::get('/teams/{team}', [TeamController::class, 'show']);
     Route::put('/teams/{team}', [TeamController::class, 'update']);
+
+    //lookup management
+    Route::get('/lookups', [LookupController::class, 'index']);
+    Route::post('/lookups', [LookupController::class, 'store']);
+    Route::get('/lookups/{id}', [LookupController::class, 'show']);
+    Route::put('/lookups/{id}', [LookupController::class, 'update']);
+    Route::delete('/lookups/{id}', [LookupController::class, 'destroy']);
 });
 
