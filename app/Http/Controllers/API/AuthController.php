@@ -88,10 +88,9 @@ class AuthController extends Controller
                 ->where('expires_at', '<', Carbon::now())
                 ->delete();
 
-            $token = $user->createToken('auth_token', [], now()->addMinutes(10));
+            $token = $user->createToken('auth_token', [], now()->addMinutes(60));
 
             Log::info("User logged in successfully: {$user->email}");
-
 
             return response()->json([
                 'status' => true,
