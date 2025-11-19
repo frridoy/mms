@@ -5,13 +5,18 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Lookup;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class LookupController extends Controller
 {
     public function index()
     {
-        $lookups = Lookup::orderBy('id', 'desc')->get();
+        $authId = Auth::id();
+        $lookups = Lookup::with('creator:id,name')
+            ->where('created_by', $authId)
+            ->orderBy('id', 'desc')
+            ->get();
 
         return response()->json([
             'status' => true,

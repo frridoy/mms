@@ -10,4 +10,9 @@ class Lookup extends Model
         'name',
         'is_active',
     ];
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }
