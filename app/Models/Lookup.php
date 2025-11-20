@@ -9,6 +9,7 @@ class Lookup extends Model
     protected $fillable = [
         'name',
         'is_active',
+        'created_by'
     ];
 
     public function creator()

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\LookupController;
+use App\Http\Controllers\API\MonthlyExpenseController;
 use App\Http\Controllers\API\TeamController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -34,5 +35,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/lookups/{id}', [LookupController::class, 'show']);
     Route::put('/lookups/{id}', [LookupController::class, 'update']);
     Route::delete('/lookups/{id}', [LookupController::class, 'destroy']);
+
+    //monthly expenses
+    Route::get('/monthly-expenses', [MonthlyExpenseController::class, 'index']);
+    Route::post('/monthly-expenses', [MonthlyExpenseController::class, 'store']);
+    Route::get('/monthly-expenses/{id}', [MonthlyExpenseController::class, 'show']);
+    Route::put('/monthly-expenses/{id}', [MonthlyExpenseController::class, 'update']);
+    Route::delete('/monthly-expenses/{id}', [MonthlyExpenseController::class, 'destroy']);
 });
 

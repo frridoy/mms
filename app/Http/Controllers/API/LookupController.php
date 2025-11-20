@@ -27,6 +27,8 @@ class LookupController extends Controller
 
     public function store(Request $request)
     {
+        $authId = Auth::id();
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:50|unique:lookups,name',
             'is_active' => 'nullable|boolean'
@@ -42,7 +44,8 @@ class LookupController extends Controller
 
         $lookup = Lookup::create([
             'name' => $request->name,
-            'is_active' => $request->is_active ?? 1
+            'is_active' => $request->is_active ?? 1,
+            'created_by' => $authId
         ]);
 
         return response()->json([
