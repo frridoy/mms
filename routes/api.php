@@ -4,6 +4,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\LookupController;
 use App\Http\Controllers\API\MonthlyExpenseController;
 use App\Http\Controllers\API\TeamController;
+use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //team management
     Route::get('/teams', [TeamController::class, 'index']);
+    Route::post('/teams', [TeamController::class, 'store']);
+    Route::get('/teams/{team}', [TeamController::class, 'show']);
+    Route::put('/teams/{team}', [TeamController::class, 'update']);
+
+    //user management
+    Route::get('/users', [UserController::class, 'index']);
     Route::post('/teams', [TeamController::class, 'store']);
     Route::get('/teams/{team}', [TeamController::class, 'show']);
     Route::put('/teams/{team}', [TeamController::class, 'update']);

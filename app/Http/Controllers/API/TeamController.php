@@ -15,11 +15,29 @@ class TeamController extends Controller
     {
         $authId = Auth::id();
 
-        $teams = Team::with(['user:id,name', 'creator:id,name'])
-            ->where('created_by', $authId)
-            ->orWhere('user_id', $authId)
+        $teams = Team::selectRaw('
+            MAX(id) as id,
+            team_number,
+            MAX(name) as name,
+            COUNT(*) as total_members
+        ')
+            ->where(function ($q) use ($authId) {
+                $q->where('created_by', $authId)
+                    ->orWhere('user_id', $authId);
+            })
+            ->groupBy('team_number')
             ->orderBy('id', 'desc')
             ->get();
+
+        $allMembers = Team::join('users', 'users.id', '=', 'teams.user_id')
+            ->whereIn('teams.team_number', $teams->pluck('team_number'))
+            ->select('teams.team_number', 'users.name')
+            ->get()
+            ->groupBy('team_number');
+
+        foreach ($teams as $team) {
+            $team->members = $allMembers[$team->team_number]->pluck('name')->values();
+        }
 
         return response()->json([
             'status' => true,
